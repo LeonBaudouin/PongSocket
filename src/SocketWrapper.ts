@@ -1,12 +1,15 @@
-import { Server, Socket } from "socket.io";
-import { EventsIn } from "./Events";
+import { Server } from "socket.io";
+import { EventsIn, EventsOut } from "./Events";
+import Player from "./Player";
+import ExtendedSocket from "./ExtendedSocket";
 
 export default class SocketWrapper
 {
-    private socket: Socket
+    private socket: ExtendedSocket
     private io: Server
 
-    constructor(socket: Socket, io: Server) {
+    constructor(socket: ExtendedSocket, io: Server)
+    {
         this.io = io
         this.socket = socket
 
@@ -19,6 +22,19 @@ export default class SocketWrapper
 
     private onPlayerRegister(name: string)
     {
+        Player.register(this.socket, name)
+            .then((player) => {
+                this.socket.player = player
+                this.socket.emit(EventsOut.REGISTERED, player.username)
+                this.socket.emit(EventsOut.UPDATE_GAMES, Game.list)
+                console.log('player registered' + player)
+            })
+            .catch((error) => this.socket.emit(EventsOut.ERROR, error))
+    }
+
+    private onNewGame(name: string)
+    {
+
     }
 
 }

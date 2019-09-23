@@ -1,4 +1,5 @@
-export enum EventsIn {
+export enum EventsIn
+{
     PLAYER_REGISTER = 'player register',
     NEW_GAME = 'new game',
     JOIN_GAME = 'join game',
@@ -6,10 +7,13 @@ export enum EventsIn {
     PLATFORM_MOVE = 'platform move'
 }
 
-export enum EventsOut {
-    UPDATE_PLAYERS = 'update players',
+export enum EventsOut
+{
+    REGISTERED = 'registered',
+    UPDATE_PLAYER = 'update player',
     UPDATE_GAMES = 'update games',
     GAME_START = 'game_start',
     PLATFORM_MOVE = 'plateform move',
-    READY = 'ready'
+    READY = 'ready',
+    ERROR = 'error'
 }
