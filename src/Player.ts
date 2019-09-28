@@ -1,11 +1,13 @@
 import { Errors } from "./Errors"
 import ExtendedSocket from "./ExtendedSocket"
+import Game from "./Game"
 
 export default class Player
 {
-    public static list: Player[]
+    public static list: Player[] = []
 
     public username: string
+    public game: Game|null = null
 
     public constructor(username: string)
     {
@@ -14,6 +16,10 @@ export default class Player
 
     public static register(socket: ExtendedSocket, username: string): Promise<Player|never>
     {
+        if (socket.player) {
+          console.log('ALREADY_CONNECTED')
+          return Promise.reject(Errors.ALREADY_CONNECTED)
+        }
         if (Player.usernameExists(username)) {
           console.log('USERNAME_EXISTS: ' + username)
           return Promise.reject(Errors.USERNAME_TAKEN)
@@ -26,11 +32,6 @@ export default class Player
 
         const player = new Player(username)
         Player.list.push(player)
-        Player.list.sort((a, b) => {
-            if(a.username < b.username) return -1
-            if(a.username > b.username) return 1
-            return 0
-        })
     
         return Promise.resolve(player)
     }

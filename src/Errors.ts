@@ -27,6 +27,10 @@ export const Errors = {
         message: 'invalid username',
         code: 101
     },
+    ALREADY_CONNECTED: {
+        message: 'already connected',
+        code: 101
+    },
 }
 
 export interface Error

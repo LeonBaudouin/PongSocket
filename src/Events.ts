@@ -10,7 +10,7 @@ export enum EventsIn
 export enum EventsOut
 {
     REGISTERED = 'registered',
-    UPDATE_PLAYER = 'update player',
+    UPDATE_GAME = 'update game',
     UPDATE_GAMES = 'update games',
     GAME_START = 'game_start',
     PLATFORM_MOVE = 'plateform move',
