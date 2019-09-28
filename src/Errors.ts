@@ -19,6 +19,10 @@ export const Errors = {
         message: 'game unavailable',
         code: 204
     },
+    ALREADY_INGAME: {
+        message: 'already in a game',
+        code: 205
+    },
     USERNAME_TAKEN: {
         message: 'username already exist',
         code: 100

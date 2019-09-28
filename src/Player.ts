@@ -17,17 +17,18 @@ export default class Player
     public static register(socket: ExtendedSocket, username: string): Promise<Player|never>
     {
         if (socket.player) {
-          console.log('ALREADY_CONNECTED')
-          return Promise.reject(Errors.ALREADY_CONNECTED)
+            console.log('ALREADY_CONNECTED')
+            return Promise.reject(Errors.ALREADY_CONNECTED)
         }
+        
         if (Player.usernameExists(username)) {
-          console.log('USERNAME_EXISTS: ' + username)
-          return Promise.reject(Errors.USERNAME_TAKEN)
+            console.log('USERNAME_EXISTS: ' + username)
+            return Promise.reject(Errors.USERNAME_TAKEN)
         }
 
         if (!Player.usernameIsValid(username)) {
-          console.log('USERNAME_INVALID: ' + username)
-          return Promise.reject(Errors.USERNAME_INVALID)
+            console.log('USERNAME_INVALID: ' + username)
+            return Promise.reject(Errors.USERNAME_INVALID)
         }
 
         const player = new Player(username)
@@ -35,6 +36,22 @@ export default class Player
     
         return Promise.resolve(player)
     }
+
+    
+    public static unregister(socket: ExtendedSocket): Promise<Player|never>
+    {
+        if (!socket.player) return Promise.reject('No socket user found')
+
+        const index = Player.list.findIndex((user) => user.username === socket.player.username)
+        
+        if (index == null) {
+            return Promise.reject(null)
+        } else {
+            const deleted = Player.list.splice(index, 1)[0]
+            return Promise.resolve(deleted)
+        }
+    }
+
 
     private static usernameIsValid(username: string)
     {

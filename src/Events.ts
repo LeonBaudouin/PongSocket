@@ -15,5 +15,5 @@ export enum EventsOut
     GAME_START = 'game_start',
     PLATFORM_MOVE = 'plateform move',
     READY = 'ready',
-    ERROR = 'error'
+    ERROR = 'pong error'
 }

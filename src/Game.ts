@@ -31,11 +31,17 @@ export default class Game
 
     public playerJoin(player: Player): Promise<Player|never>
     {
+        if (player.game) {
+            console.log(player.username + 'IS ALREADY IN GAME ' + player.game.name)
+            Promise.reject(Errors.ALREADY_INGAME)
+        }
+
         if (this.state != GameState.waiting) {
             console.log('GAME IS CURRENTLY ' + this.state)
             Promise.reject(Errors.GAME_UNAVAILABLE)
         }
-        if (this.isFull) {
+
+        if (this.isFull()) {
             console.log('GAME ' + this.name + ' IS FULL : ' + Player.name + ' TRIED TO JOIN')
             Promise.reject(Errors.GAME_FULL)
         }
@@ -56,7 +62,7 @@ export default class Game
             return Promise.reject(Errors.GAME_NAME_INVALID)
         }
 
-        if (this.gameNameExists) {
+        if (this.gameNameExists(gameName)) {
             console.log('GAME_NAME_TAKEN: ' + gameName)
             return Promise.reject(Errors.GAME_NAME_TAKEN)
         }
@@ -79,7 +85,7 @@ export default class Game
 
     public static getDataList()
     {
-        return Game.list.map(game => game.getData)
+        return Game.list.map(game => game.getData())
     }
 
     public static getGameByName(name: string): Promise<Game|never>
